@@ -9,7 +9,7 @@ public class Main {
 
 
     static HashMap<String , Admin> admins = new HashMap< String ,Admin>();
-    public void addAdmins(){
+    public static void addAdmins(){
         Admin admin1= new Admin("Beff Jezos", "Password");
         Admin admin2= new Admin("Gill Bates", "Password1");
         admins.put("Beff Jezos", admin1);
@@ -26,6 +26,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Welcome to FutureBuilder:");
+        addAdmins();
         start();
     }
 
@@ -54,52 +55,60 @@ public class Main {
     }
 
     static void enterAsAdmin() {
+
         System.out.println("Enter your name: ");
         String name = sc.nextLine();
         System.out.println("Enter your Password: ");
         String password = sc.nextLine();
-        if(authenticateAdmin(name, password)){
+//        System.out.println(authenticateAdmin(name, password));
+        if(authenticateAdmin(name, password)==false){
+            System.out.println("Incorrect Admin name or Password\n");
             return;
         }
-        while (true) {
+        else {
+            while (true) {
 //            System.out.println("Choose The mode you want to Enter in:-");
-            System.out.println("Welcome "+ name);
-            System.out.println(
-                    "Please choose any one of the following actions:\n" +
-                    "1) Add Category\n" +
-                    "2) Delete Category\n" +
-                    "3) Add Product\n" +
-                    "4) Delete Product\n" +
-                    "5) Set Discount on Product\n" +
-                    "6) Add Giveaway Deal\n" +
-                    "7) Back"
-            );
-            int ch = Integer.parseInt(sc.nextLine());
-            if (ch == 1) {
-                addCategory();
-            } else if (ch == 2) {
-                deleteCategory();
-            } else if (ch == 3) {
-                addProduct();
-            } else if (ch == 4) {
-                deleteProduct();
-            } else if (ch == 5) {
-                setDiscountOnProduct();
-            } else if (ch == 6) {
-                addGiveawayDeal();
-            } else {
-                System.out.println("Bye "+ name);
-                return;
+                System.out.println("Welcome " + name);
+                System.out.println(
+                        "Please choose any one of the following actions:\n" +
+                                "1) Add Category\n" +
+                                "2) Delete Category\n" +
+                                "3) Add Product\n" +
+                                "4) Delete Product\n" +
+                                "5) Set Discount on Product\n" +
+                                "6) Add Giveaway Deal\n" +
+                                "7) Back"
+                );
+                int ch = Integer.parseInt(sc.nextLine());
+                if (ch == 1) {
+                    addCategory();
+                } else if (ch == 2) {
+                    deleteCategory();
+                } else if (ch == 3) {
+                    addProduct();
+                } else if (ch == 4) {
+                    deleteProduct();
+                } else if (ch == 5) {
+                    setDiscountOnProduct();
+                } else if (ch == 6) {
+                    addGiveawayDeal();
+                } else {
+                    System.out.println("Bye " + name);
+                    return;
+                }
             }
         }
     }
 
     static boolean authenticateAdmin(String name, String password){
         if (!admins.containsKey(name)){
+//            System.out.println("name no\n");
             return false;
         }
         else{
-            if(admins.get(name).getAdminPassword()!=password){
+            if(!admins.get(name).getAdminPassword().equals(password)){
+//                System.out.println(password + " " + admins.get(name).getAdminPassword());
+//                System.out.println("Password no\n");
                 return false;
             }
             return true;
@@ -295,8 +304,12 @@ public class Main {
 //        Normal customer = getCustomer(name, password);
 //        Elite customer = getCustomer(name, password);
 //        Prime customer = getCustomer(name, password);
+        if(customer== null){
+            System.out.println("Incorrect Username or Password\n");
+            return;
+        }
         while (true) {
-            System.out.println("Welcome "+name+"!!\n" +
+            System.out.println("Welcome " + name + "!!\n" +
                     "1) browse products\n" +
                     "2) browse deals\n" +
                     "3) add a product to cart\n" +
@@ -333,11 +346,15 @@ public class Main {
             } else if (ch == 11) {
                 addAmountToWallet(customer);
             } else {
-                System.out.println("Bye "+ name);
+                System.out.println("Bye " + name);
                 return;
             }
         }
+
+
     }
+
+
 
     static void browseDeals(){
         showAvailableDeals();
